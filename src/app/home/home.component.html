@@ -1,0 +1,9 @@
+﻿<div class="card mt-4">
+    <div class="card-body">
+        <h6>Gadgets from secure api end point</h6>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <ul *ngIf="gadgets">
+            <li *ngFor="let gadget of gadgets">{{gadget.title}}-{{gadget.description}}</li>
+        </ul>
+    </div>
+</div>
