@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Gadget, GadgetTable } from '@app/_models';
 import { GadgetService } from '@app/_services';
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 import { ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import { of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { NewGadgetPopupComponent } from '../new-gadget-popup/new-gadget-popup.component';
 
 @Component({
   selector: 'app-gadget-table',
@@ -18,7 +20,10 @@ export class GadgetTableComponent implements OnInit {
   loading:boolean = false;
   gadgets?: Gadget[];
 
-  constructor(private gadgetService: GadgetService) { }
+  constructor(
+    private gadgetService: GadgetService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit() {}
 
@@ -48,7 +53,11 @@ export class GadgetTableComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.getGadgetData();
+    
+  }
 
+  getGadgetData() {
     this.paginator.page
       .pipe(
         startWith({}),
@@ -70,5 +79,27 @@ export class GadgetTableComponent implements OnInit {
         this.GadgetData = gadgetData;
         this.dataSource = new MatTableDataSource(this.GadgetData);
       });
+  }
+
+  openNewGadgetPopup() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '600px';
+
+    // dialogConfig.data = {
+    //     id: 1,
+    //     title: 'Angular For Beginners'
+    // };
+
+    let dialogRef = this.dialog.open(NewGadgetPopupComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.getGadgetData();
+      }
+    });
+
   }
 }

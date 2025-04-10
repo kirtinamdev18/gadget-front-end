@@ -13,10 +13,14 @@ export class GadgetService {
         return this.http.get<Gadget[]>(`${environment.apiUrl}/gadgets`);
     }
 
-    public getGadgets(
+    getGadgets(
         pageNumber: Number,
         pageSize: Number
       ): Observable<GadgetTable> {    
-        return this.http.get<GadgetTable>(`${environment.apiUrl}/gadgets?page=${pageNumber}&per_page=${pageSize}`);
-      }
+      return this.http.get<GadgetTable>(`${environment.apiUrl}/gadgets?page=${pageNumber}&per_page=${pageSize}`);
+    }
+
+    saveNew(gadgetData: any) {
+      return this.http.post<Gadget[]>(`${environment.apiUrl}/gadgets/saveNew`, gadgetData);
+    }
 }
