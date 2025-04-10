@@ -4,6 +4,7 @@
     description?: string;
     price?: string;
     status?: string;
+    checked?: boolean;
 }
 
 export interface GadgetTable {

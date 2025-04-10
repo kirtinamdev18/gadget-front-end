@@ -13,6 +13,10 @@ export class GadgetService {
         return this.http.get<Gadget[]>(`${environment.apiUrl}/gadgets`);
     }
 
+    getGadget(gadgetId: number) {
+      return this.http.get<Gadget[]>(`${environment.apiUrl}/gadgets/getSingle/${gadgetId}`);
+  }
+
     getGadgets(
         pageNumber: Number,
         pageSize: Number
@@ -22,5 +26,17 @@ export class GadgetService {
 
     saveNew(gadgetData: any) {
       return this.http.post<Gadget[]>(`${environment.apiUrl}/gadgets/saveNew`, gadgetData);
+    }
+
+    update(gadgetData: any) {
+      return this.http.post<Gadget[]>(`${environment.apiUrl}/gadgets/update`, gadgetData);
+    }
+
+    deleteGadget(gadgetId: number) {
+      return this.http.delete(`${environment.apiUrl}/gadgets/delete/${gadgetId}`);
+    }
+
+    deleteMultipleGadget(gadgetIds: any) {
+      return this.http.post(`${environment.apiUrl}/gadgets/deleteMultiple`, gadgetIds);
     }
 }

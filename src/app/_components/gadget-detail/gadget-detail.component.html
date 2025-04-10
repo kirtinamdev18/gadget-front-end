@@ -1,0 +1,29 @@
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-3" >
+                <a [routerLink]="'/'" type="button" class="btn btn-primary" >Back to List</a>
+                <button type="button" class="btn btn-primary" (click)="openEditGadgetPopup()">Edit</button>
+
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" value="{{data.title}}" disabled />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" disabled >{{data.description}}</textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label class="form-label">Price</label>
+                    <input type="text" class="form-control" value="{{data.price}}" disabled />
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Stock</label>
+                    <input type="text" class="form-control" value="{{data.stock}}" disabled />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,11 +14,14 @@ import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { GadgetTableComponent } from './_components/gadget-table/gadget-table.component';
 import { NewGadgetPopupComponent } from './_components/new-gadget-popup/new-gadget-popup.component';
+import { EditGadgetPopupComponent } from './_components/edit-gadget-popup/edit-gadget-popup.component';
+import { GadgetDetailComponent } from './_components/gadget-detail/gadget-detail.component';
 
 @NgModule({
     imports: [
         BrowserModule,
         ReactiveFormsModule,
+        FormsModule,
         HttpClientModule,
         MaterialComponentsModule,
         BrowserAnimationsModule,
@@ -28,7 +32,9 @@ import { NewGadgetPopupComponent } from './_components/new-gadget-popup/new-gadg
         HomeComponent,
         LoginComponent,
         GadgetTableComponent,
-        NewGadgetPopupComponent
+        NewGadgetPopupComponent,
+        EditGadgetPopupComponent,
+        GadgetDetailComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

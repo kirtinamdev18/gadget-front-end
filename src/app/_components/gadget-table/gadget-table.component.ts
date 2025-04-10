@@ -10,6 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { NewGadgetPopupComponent } from '../new-gadget-popup/new-gadget-popup.component';
+import { EditGadgetPopupComponent } from '../edit-gadget-popup/edit-gadget-popup.component';
 
 @Component({
   selector: 'app-gadget-table',
@@ -28,12 +29,13 @@ export class GadgetTableComponent implements OnInit {
   ngOnInit() {}
 
   displayedColumns: string[] = [
+    'bulkCheckbox',
     'id',
     'title',
     'description',
     'price',
-    'status',
-    'stock'
+    'stock',
+    'action'
   ];
 
   empTable!: GadgetTable;
@@ -45,7 +47,7 @@ export class GadgetTableComponent implements OnInit {
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
-  pageSizes = [3, 5, 7];
+  pageSizes = [5, 10, 20, 50];
 
   getTableData$(pageNumber: Number, pageSize: Number) {
     return this.gadgetService.getGadgets(pageNumber, pageSize);
@@ -76,6 +78,9 @@ export class GadgetTableComponent implements OnInit {
         })
       )
       .subscribe((gadgetData) => {
+        gadgetData.forEach((item: any) => {
+          item['checked'] = false;
+        });
         this.GadgetData = gadgetData;
         this.dataSource = new MatTableDataSource(this.GadgetData);
       });
@@ -83,15 +88,7 @@ export class GadgetTableComponent implements OnInit {
 
   openNewGadgetPopup() {
     const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
     dialogConfig.width = '600px';
-
-    // dialogConfig.data = {
-    //     id: 1,
-    //     title: 'Angular For Beginners'
-    // };
 
     let dialogRef = this.dialog.open(NewGadgetPopupComponent, dialogConfig);
 
@@ -100,6 +97,37 @@ export class GadgetTableComponent implements OnInit {
         this.getGadgetData();
       }
     });
+  }
 
+  deleteGadget(data: any) {
+    if(confirm('Are you sure to delete?')) {
+      this.gadgetService.deleteGadget(data).subscribe((data: any) => {
+        if(data && data.changes == 1) {
+          this.getGadgetData();
+          alert('Gadget deleted successufully.');
+        } else {
+          alert('Some error occured while deleting data.');
+        }
+      });
+    }
+  }
+
+  checkIfGadgetSelected() {
+    return (this.GadgetData.filter(item => item.checked).length == 0);
+  }
+
+  bulkDelete() {
+    if(confirm('Are you sure to delete?')) {
+      const selectedIds = this.GadgetData.filter(item => item.checked)
+      .map(item => item.id);
+      this.gadgetService.deleteMultipleGadget({selectedIds: selectedIds}).subscribe((data: any) => {
+        if(data && data.changes != 0) {
+          this.getGadgetData();
+          alert('Gadget deleted successufully.');
+        } else {
+          alert('Some error occured while deleting data.');
+        }
+      });
+    }
   }
 }
