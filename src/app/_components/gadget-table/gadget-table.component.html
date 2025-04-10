@@ -1,0 +1,19 @@
+<h6>Gadgets from secure api end point</h6>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+    <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+    <td mat-cell *matCellDef="let gadget">{{ gadget[column] }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let gadget; columns: displayedColumns"></tr>
+</table>
+
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<mat-paginator
+  #paginator
+  [length]="totalData"
+  [pageSizeOptions]="pageSizes"
+  showFirstLastButtons
+></mat-paginator>
